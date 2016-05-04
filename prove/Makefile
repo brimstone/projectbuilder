@@ -1,8 +1,15 @@
+ifndef TESTER
 ifneq ($(wildcard t),)
-.PHONY: test
+TESTER=prove
+endif
+endif
+
+
+ifeq (${TESTER},prove)
+
+ifndef TEST
 test:
 	@prove
-else
-test:
-	@echo "No test directory found"
+endif
+
 endif

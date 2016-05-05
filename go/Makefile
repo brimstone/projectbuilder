@@ -10,10 +10,10 @@ ifeq (${LANGUAGE},go)
 
 ifndef CHECK
 ifneq ($(wildcard *_test.go),)
-check: go-test
+check: go-fmt go-vet go-lint go-test
 else
-check:
-	@echo "=> Skipping check step since there are no *_test.go files"
+$(warning "Skipping check step since there are no *_test.go files")
+check: go-fmt go-vet go-lint
 endif
 endif
 
@@ -22,17 +22,43 @@ binary: app
 endif
 
 ifndef APP
+# TODO account for docker
+# TODO account for goupx
 app: *.go
+	$(info == Building)
 	tar c . | docker run --rm -i -e TAR=1 brimstone/golang-musl \
 	-o app -ldflags '-linkmode external -extldflags "-static" -s -w' \
 	| tar x ./app
-	goupx app
+	#goupx app
+endif
+
+ifndef CLEAN
+clean:
+	$(info == Cleaning)
+	-rm app
 endif
 
 endif
 
 
+.PHONY: go-fmt go-vet go-lint go-test
 # third, define these anyway, in case the user wants to use them
+go-fmt:
+	$(info == Formatting code)
+	@if [ -n "$(shell gofmt -d -s .)" ]; then \
+		gofmt -d -s .; \
+		exit 1; \
+	fi
+
+go-vet:
+	$(info == Vetting code)
+	@go tool vet $(shell pwd)
+
+go-lint:
+	$(info == Linting code)
+	@golint
+
 go-test:
-	@go test
+	$(info == Testing code)
+	@go test -covermode=count
 

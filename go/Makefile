@@ -1,42 +1,30 @@
 # first, detect our language
-ifndef LANGUAGE
 ifneq ($(wildcard *.go),)
-LANGUAGE = go
-endif
+LANGUAGE ?= go
 endif
 
 # second, if this is our language, define checks
 ifeq (${LANGUAGE},go)
 
-ifndef CHECK
 ifneq ($(wildcard *_test.go),)
-check: go-fmt go-vet go-lint go-test
+CHECK ?= go-fmt go-vet go-lint go-test
 else
-$(warning "Skipping check step since there are no *_test.go files")
-check: go-fmt go-vet go-lint
-endif
-endif
-
-ifndef BINARY
-binary: app
+$(warning == Skipping check step since there are no *_test.go files)
+CHECK ?= go-fmt go-vet go-lint
 endif
 
-ifndef APP
+BINARY ?= app
+
 # TODO account for docker
 # TODO account for goupx
-app: *.go
+${BINARY}: *.go
 	$(info == Building)
 	tar c . | docker run --rm -i -e TAR=1 brimstone/golang-musl \
-	-o app -ldflags '-linkmode external -extldflags "-static" -s -w' \
+	-o ${BINARY} \
 	| tar x ./app
 	#goupx app
-endif
 
-ifndef CLEAN
-clean:
-	$(info == Cleaning)
-	-rm app
-endif
+CLEAN ?= go-clean
 
 endif
 
@@ -61,4 +49,8 @@ go-lint:
 go-test:
 	$(info == Testing code)
 	@go test -covermode=count
+
+go-clean:
+	$(info == Cleaning)
+	-rm app
 

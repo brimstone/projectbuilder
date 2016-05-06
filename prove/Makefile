@@ -1,15 +1,8 @@
-ifndef TESTER
 ifneq ($(wildcard t),)
-TESTER=prove
+
+TEST ?= prove-test
 endif
-endif
 
-
-ifeq (${TESTER},prove)
-
-ifndef TEST
-test:
+prove-test:
+	$(info == Testing with prove)
 	@prove
-endif
-
-endif

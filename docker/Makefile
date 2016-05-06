@@ -1,18 +1,19 @@
-ifndef PACKAGER
 ifneq ($(wildcard Dockerfile),)
-PACKAGER=docker
+ifneq ($(shell which docker),)
+
+PACKAGE ?= docker-package
+
+ifneq ($(shell grep auths ~/.docker/config.json),)
+PUBLISH ?= docker-publish
+endif
+
 endif
 endif
 
-ifeq (${PACKAGER},docker)
-ifndef PACKAGE
-package: app
+docker-package: ${BINARY}
+	$(info == Building Docker image)
 	docker build -t ${DOCKER_TAG} .
-endif
 
-ifndef PUBLISH
-publish:
+docker-publish:
+	$(info == Pushing Docker image)
 	docker push ${DOCKER_TAG}
-endif
-
-endif

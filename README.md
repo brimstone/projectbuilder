@@ -81,7 +81,7 @@ variable.
 
 Supported packaging formats:
 
-- Docker container image
+- Docker container image: The image defined by `DOCKER_TAG` is built.
 
 ### test
 
@@ -99,20 +99,4 @@ This is for publishing the packaged binary. Overriding this is possible with the
 
 Supported endpoints:
 
-- Docker registries
-
-
-Supported languages and package formats
----------------------------------------
-
-### Go
-
-No extra variables.
-
-### Docker
-
-`DOCKER_TAG`
-
-### Prove
-
-No extra variables.
+- Docker registries: The image is defined by `DOCKER_TAG` is pushed.

@@ -15,8 +15,6 @@ $(warning == Skipping check step since there are no *_test.go files)
 CHECK ?= go-fmt go-vet go-lint
 endif
 
-BINARY ?= app
-
 # TODO account for docker
 # TODO account for goupx
 ${BINARY}: *.go

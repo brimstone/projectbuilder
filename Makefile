@@ -4,6 +4,8 @@ all: precheck check binary package test
 
 PRECHECK = main-precheck
 
+BINARY ?= app
+
 include ${PROJECTBUILDER}/*/Makefile
 
 setup: ${SETUP}

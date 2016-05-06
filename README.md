@@ -62,6 +62,11 @@ is not recommended. If required, at least append to `PRECHECK`.
 This is for checking source code before the build. This performs any language
 specific formatting, vetting, linting, unit testing or otherwise. 
 
+Supported coverage sites:
+
+- [Coveralls.io](https://coveralls.io): If `COVERALLS` is set, coverage is sent
+to [coveralls.io](https://coveralls.io)
+
 ### binary
 
 This is for the actual complication step to result in a binary file. Overriding

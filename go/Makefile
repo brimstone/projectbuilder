@@ -15,14 +15,20 @@ $(warning == Skipping check step since there are no *_test.go files)
 CHECK ?= go-fmt go-vet go-lint
 endif
 
-# TODO account for docker
-# TODO account for goupx
+ifneq (${COVERALLS},)
+CHECK = ${CHECK} go-coveralls
+endif
+
+ifeq ($(shell which docker),)
+${BINARY}: *.go
+	go build -i -o ${BINARY}
+else
 ${BINARY}: *.go
 	$(info == Building)
 	tar c . | docker run --rm -i -e TAR=1 brimstone/golang-musl \
 	-o ${BINARY} \
 	| tar x ./app
-	#goupx app
+endif
 
 CLEAN ?= go-clean
 
@@ -52,6 +58,10 @@ go-vet:
 go-lint:
 	$(info == Linting code)
 	@golint
+
+go-coveralls:
+	$(info == Submitting coveralls report)
+	@goveralls -v -repotoken ${COVERALLS}
 
 go-test:
 	$(info == Testing code)

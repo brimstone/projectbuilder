@@ -1,6 +1,10 @@
 projectbuilder
 ==============
 
+This is an opinionated builder of my personal projects. The aim is to
+consistently build all of my projects the same way. No more copy pasta build
+steps here!
+
 Installation
 ------------
 

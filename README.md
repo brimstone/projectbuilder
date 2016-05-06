@@ -26,7 +26,9 @@ If this is the first use in a project, call:
 user@host:project$ ${PROJECTBUILDER}/make
 ```
 
-This sets up a super simple `Makefile`. This can also be setup manually:
+This sets up a super simple `Makefile` in the local project. This can also be
+setup manually by including this project's `Makefile` at the end of the local
+`Makefile`:
 
 ```
 include ${PROJECTBUILDER}/Makefile

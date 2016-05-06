@@ -13,13 +13,13 @@ git clone https://github.com/brimstone/projectbuilder.git ~/projectbuilder
 Export the path as PROJECTBUILDER:
 
 ```
-export PROJECTBUILDER=$HOME/projectbuilder
+user@host:project$ export PROJECTBUILDER=$HOME/projectbuilder
 ```
 
 If this is the first use in a project, call:
 
 ```
-${PROJECTBUILDER}/make
+user@host:project$ ${PROJECTBUILDER}/make
 ```
 
 This sets up a super simple `Makefile`. This can also be setup manually:

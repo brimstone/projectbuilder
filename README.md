@@ -81,7 +81,10 @@ variable.
 
 Supported packaging formats:
 
-- Docker container image: The image defined by `DOCKER_TAG` is built.
+- Docker container image: The image defined by `DOCKER_TAG` is built. If unset,
+`DOCKER_TAG` is constructed by `DOCKER_ORG` and the local directory. If
+`DOCKER_ORG` is unset, it is guessed by the authentication information in
+`~/.docker/config.json`. `DOCKER_ORG` or `DOCKER_TAG` must be set.
 
 ### test
 
@@ -99,4 +102,5 @@ This is for publishing the packaged binary. Overriding this is possible with the
 
 Supported endpoints:
 
-- Docker registries: The image is defined by `DOCKER_TAG` is pushed.
+- Docker registries: The image is defined by `DOCKER_TAG` is pushed. See
+additional caveats in the `package` step.

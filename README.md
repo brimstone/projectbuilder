@@ -111,3 +111,6 @@ Supported endpoints:
 
 - Docker registries: The image is defined by `DOCKER_TAG` is pushed. See
 additional caveats in the `package` step.
+- Git repo: This is for PaaSes like Heroku and Openshift. Set `GIT_URL` to the
+url of the repository. Optionally, set `GIT_BRANCH` to the branch on the remote
+repository.

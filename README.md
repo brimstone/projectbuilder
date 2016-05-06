@@ -36,7 +36,8 @@ include ${PROJECTBUILDER}/Makefile
 Usage
 -----
 
-Once installed, simply type `make` when used locally. This runs through the `precheck`, `check`, `binary`, and `test` steps.
+Once installed, simply type `make` when used locally. This runs through the
+`precheck`, `check`, `binary`, and `test` steps.
 
 Lifecycle
 ---------
@@ -45,23 +46,29 @@ Available top level targets:
 
 ### setup
 
-This sets up the local system to build and package your project. Overriding this is possible with the `CHECK` variable, but is not recommended.
+This sets up the local system to build and package your project. Overriding this
+is possible with the `CHECK` variable, but is not recommended.
 
 ### precheck
 
-This is for projectbuilder to do any top level checks. Mainly for setting up the local `Makefile`. Overriding this is possible with the `PRECHECK` variable, but is not recommended. If required, at least append to `PRECHECK`.
+This is for projectbuilder to do any top level checks. Mainly for setting up the
+local `Makefile`. Overriding this is possible with the `PRECHECK` variable, but
+is not recommended. If required, at least append to `PRECHECK`.
 
 ### check
 
-This is for checking source code before the build. This performs any language specific formatting, vetting, linting, unit testing or otherwise. 
+This is for checking source code before the build. This performs any language
+specific formatting, vetting, linting, unit testing or otherwise. 
 
 ### binary
 
-This is for the actual complication step to result in a binary file. Overriding this is possible with the `BINARY` variable.
+This is for the actual complication step to result in a binary file. Overriding
+this is possible with the `BINARY` variable.
 
 If `BINARY` is set to a target, that target is called.
 
-If `BINARY` is set to anything else, it's assumed it's a file on disk. The default value is `app`
+If `BINARY` is set to anything else, it's assumed it's a file on disk. The
+default value is `app`
 
 Supported languages:
 
@@ -69,7 +76,8 @@ Supported languages:
 
 ### package
 
-This is for packaging the binary. Overriding this is possible with the `PACKAGE` variable.
+This is for packaging the binary. Overriding this is possible with the `PACKAGE`
+variable.
 
 Supported packaging formats:
 
@@ -77,7 +85,8 @@ Supported packaging formats:
 
 ### test
 
-This is for testing the packaged binary. Overriding this is possible with the `TEST` variable.
+This is for testing the packaged binary. Overriding this is possible with the
+`TEST` variable.
 
 Supported test runners:
 
@@ -85,7 +94,8 @@ Supported test runners:
 
 ### publish
 
-This is for publishing the packaged binary. Overriding this is possible with the `PUBLISH` variable.
+This is for publishing the packaged binary. Overriding this is possible with the
+`PUBLISH` variable.
 
 Supported endpoints:
 

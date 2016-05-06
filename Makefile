@@ -9,7 +9,8 @@ include ${PROJECTBUILDER}/*/Makefile
 precheck: ${PRECHECK}
 
 main-precheck:
-	if tail -n 1 ${PWD}/Makefile | !grep -q "PROJECTBUILDER"; then \
+	$(info == Precheck)
+	@if ! tail -n 1 ${PWD}/Makefile | grep -q "PROJECTBUILDER"; then \
 		sed -i '/PROJECTBUILDER/d' ${PWD}/Makefile; \
 		echo 'include $${PROJECTBUILDER}/Makefile' >> ${PWD}/Makefile; \
 	fi
@@ -21,5 +22,7 @@ binary: ${BINARY}
 package: ${PACKAGE}
 
 test: ${TEST}
+
+clean: ${CLEAN}
 
 publish: ${PUBLISH}

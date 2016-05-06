@@ -6,6 +6,8 @@ endif
 # second, if this is our language, define checks
 ifeq (${LANGUAGE},go)
 
+SETUP ?= go-setup
+
 ifneq ($(wildcard *_test.go),)
 CHECK ?= go-fmt go-vet go-lint go-test
 else
@@ -29,8 +31,15 @@ CLEAN ?= go-clean
 endif
 
 
-.PHONY: go-fmt go-vet go-lint go-test
+.PHONY: go-setup go-fmt go-vet go-lint go-test
 # third, define these anyway, in case the user wants to use them
+
+go-setup:
+	go get -u github.com/axw/gocov/gocov
+	go get -u github.com/mattn/goveralls
+	go get -u github.com/golang/lint/golint
+	go get -v -d -u
+
 go-fmt:
 	$(info == Formatting code)
 	@if [ -n "$(shell gofmt -d -s .)" ]; then \
@@ -52,5 +61,5 @@ go-test:
 
 go-clean:
 	$(info == Cleaning)
-	-rm app
+	-rm ${BINARY}
 

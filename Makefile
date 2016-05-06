@@ -6,6 +6,8 @@ PRECHECK = main-precheck
 
 include ${PROJECTBUILDER}/*/Makefile
 
+setup: ${SETUP}
+
 precheck: ${PRECHECK}
 
 main-precheck:

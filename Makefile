@@ -1,10 +1,25 @@
-all: precheck check binary package test
+# http://clarkgrubb.com/makefile-style-guide
 
-.PHONY: check package publish test clean
+## Prologue
+# Boilerplate variables
+MAKEFLAGS += --warn-undefined-variables
+SHELL := bash
+.SHELLFLAGS := -eu -o pipefail -c
+.DEFAULT_GOAL := all
+.DELETE_ON_ERROR:
+.SUFFIXES:
 
+# our global, user callable targets
+.PHONY: check package test publish clean
+# our usually not user callable targets
+.PHONY: setup precheck main-precheck
+# our variables with sane defaults
 PRECHECK = main-precheck
-
 BINARY ?= app
+
+
+## targets
+all: precheck check binary package test
 
 include ${PROJECTBUILDER}/*/Makefile
 

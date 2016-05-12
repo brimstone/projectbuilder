@@ -12,7 +12,7 @@ ifndef DOCKER_TAG
 ifeq ($(wildcard ${HOME}/.docker/config.json),)
 # if DOCKER_PASSWORD isn't set, then we can't even login
 ifdef DOCKER_PASSWORD
-DOCKER_LOGIN = $(shell docker login -u="${DOCKER_USERNAME}" -p="${DOCKER_PASSWORD}")
+DOCKER_LOGIN = $(shell docker login -e="${DOCKER_EMAIL}" -u="${DOCKER_USERNAME}" -p="${DOCKER_PASSWORD}" </dev/null)
 $(info == Results of Docker Login: ${DOCKER_LOGIN})
 endif
 endif # wildcard config.json

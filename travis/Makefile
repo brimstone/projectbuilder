@@ -1,6 +1,6 @@
 .PHONY: travis travis.yaml
 
-travis: travis.yml setup all publish
+travis: setup all publish
 
 define newline
 

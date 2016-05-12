@@ -1,6 +1,7 @@
 # first, detect our language
 ifneq ($(wildcard *.go),)
 LANGUAGE ?= go
+LANGUAGE_VERSION ?= 1.6
 endif
 
 # second, if this is our language, define checks

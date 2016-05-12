@@ -10,6 +10,9 @@ endef
 define TRAVIS_YML
 language: ${LANGUAGE}
 
+${LANGUAGE}:
+  - ${LANGUAGE_VERSION}
+
 services:
   - docker
 

@@ -1,13 +1,28 @@
+# if we have a dockerfile and docker installed
 ifneq ($(wildcard Dockerfile),)
 ifneq ($(shell which docker),)
 
+# assume we should be a docker package
 PACKAGE ?= docker-package
 
-ifeq (${DOCKER_TAG},)
+# if we don't already have a docker tag set
+ifndef DOCKER_TAG
+
+# if we don't have an auth file, assume we're not logged in to publish
+ifeq ($(wildcard ${HOME}/.docker/config.json),)
+# if DOCKER_PASSWORD isn't set, then we can't even login
+ifdef DOCKER_PASSWORD
+DOCKER_LOGIN = $(shell docker login -u="${DOCKER_USERNAME}" -p="${DOCKER_PASSWORD}")
+$(info == Results of Docker Login: ${DOCKER_LOGIN})
+endif
+endif # wildcard config.json
+
+# try to set an org from our logged in user, if it's not already set
 DOCKER_ORG ?= $(shell awk -F '"' '$$2 == "auth" {print $$4; exit}' \
 					~/.docker/config.json \
 				| base64 -d \
 				| awk -F: '{print $$1}')
+# if we still don't have an org, don't set a tag
 ifeq (${DOCKER_ORG},)
 $(warning == Docker detected, but unable to determine $$DOCKER_ORG and $$DOCKER_TAG is empty. Not publishing with docker.)
 else
@@ -16,7 +31,8 @@ endif # DOCKER_ORG
 
 endif # DOCKER_TAG
 
-ifneq (${DOCKER_TAG},)
+# if we still don't have a tag set, don't publish with docker
+ifdef DOCKER_TAG
 PUBLISH ?= docker-publish
 endif # DOCKER_TAG
 

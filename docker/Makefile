@@ -5,9 +5,6 @@ ifneq ($(shell which docker),)
 # assume we should be a docker package
 PACKAGE ?= docker-package
 
-# if we don't already have a docker tag set
-ifndef DOCKER_TAG
-
 # if we don't have an auth file, assume we're not logged in to publish
 ifeq ($(wildcard ${HOME}/.docker/config.json),)
 # if DOCKER_PASSWORD isn't set, then we can't even login
@@ -16,6 +13,9 @@ DOCKER_LOGIN = $(shell docker login -e="${DOCKER_EMAIL}" -u="${DOCKER_USERNAME}"
 $(info == Results of Docker Login: ${DOCKER_LOGIN})
 endif
 endif # wildcard config.json
+
+# if we don't already have a docker tag set
+ifndef DOCKER_TAG
 
 # try to set an org from our logged in user, if it's not already set
 DOCKER_ORG ?= $(shell awk -F '"' '$$2 == "auth" {print $$4; exit}' \

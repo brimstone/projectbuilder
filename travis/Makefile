@@ -2,11 +2,6 @@
 
 travis: setup all publish
 
-define newline
-
-
-endef
-
 define TRAVIS_YML
 language: ${LANGUAGE}
 

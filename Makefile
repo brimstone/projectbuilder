@@ -16,6 +16,11 @@ SHELL := bash
 # our variables with sane defaults
 PRECHECK = main-precheck
 BINARY ?= app
+define newline
+
+
+endef
+
 
 
 ## targets

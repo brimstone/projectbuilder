@@ -1,2 +1,2 @@
 #!/bin/bash
-make -C "$PROJECTBUILDER"
+make -f "$PROJECTBUILDER/Makefile"

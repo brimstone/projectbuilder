@@ -34,6 +34,7 @@ precheck: ${PRECHECK}
 
 main-precheck:
 	$(info == Precheck)
+	@[ -e "${PWD}/Makefile" ] || touch "${PWD}/Makefile"
 	@if ! tail -n 1 ${PWD}/Makefile | grep -q "PROJECTBUILDER"; then \
 		sed -i '/PROJECTBUILDER/d' ${PWD}/Makefile; \
 		echo 'include $${PROJECTBUILDER}/Makefile' >> ${PWD}/Makefile; \

@@ -26,7 +26,7 @@ ${BINARY}: *.go
 else
 ${BINARY}: *.go
 	$(info == Building)
-	tar c . | docker run --rm -i -e TAR=1 brimstone/golang-musl \
+	tar c . --exclude "${BINARY}" | docker run --rm -i -e TAR=1 brimstone/golang-musl \
 	-o ${BINARY} \
 	| tar x ./app
 endif

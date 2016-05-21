@@ -10,10 +10,10 @@ ifeq (${LANGUAGE},go)
 SETUP ?= go-setup
 
 ifneq ($(wildcard *_test.go),)
-CHECK ?= go-fmt go-vet go-lint go-test
+CHECK ?= go-fmt go-vet go-lint go-generate go-test
 else
 $(warning == Skipping check step since there are no *_test.go files)
-CHECK ?= go-fmt go-vet go-lint
+CHECK ?= go-fmt go-vet go-lint go-generate
 endif
 
 ifneq (${COVERALLS},)
@@ -36,15 +36,15 @@ CLEAN ?= go-clean
 endif
 
 
-.PHONY: go-setup go-fmt go-vet go-lint go-test
 # third, define these anyway, in case the user wants to use them
-
+.PHONY: go-setup
 go-setup:
 	go get -u github.com/axw/gocov/gocov
 	go get -u github.com/mattn/goveralls
 	go get -u github.com/golang/lint/golint
 	go get -v -d -u
 
+.PHONY: go-fmt
 go-fmt:
 	$(info == Formatting code)
 	@if [ -n "$(shell gofmt -d -s .)" ]; then \
@@ -52,22 +52,32 @@ go-fmt:
 		exit 1; \
 	fi
 
+.PHONY: go-vet
 go-vet:
 	$(info == Vetting code)
 	@go tool vet $(shell pwd)
 
+.PHONY: go-lint
 go-lint:
 	$(info == Linting code)
 	@golint
 
+.PHONY: go-generate
+go-generate:
+	$(info == Generating code)
+	@go generate -v
+
+.PHONY: go-coveralls
 go-coveralls:
 	$(info == Submitting coveralls report)
 	@goveralls -v -repotoken ${COVERALLS}
 
+.PHONY: go-test
 go-test:
 	$(info == Testing code)
 	@go test -covermode=count
 
+.PHONY: go-clean
 go-clean:
 	$(info == Cleaning)
 	-rm ${BINARY}

@@ -28,7 +28,7 @@ ${BINARY}: *.go
 	$(info == Building)
 	tar c . --exclude "${BINARY}" | docker run --rm -i -e TAR=1 brimstone/golang-musl \
 	-o ${BINARY} \
-	| tar x ./app
+	| tar x "./${BINARY}"
 endif
 
 CLEAN ?= go-clean

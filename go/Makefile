@@ -17,7 +17,7 @@ CHECK ?= go-fmt go-vet go-lint go-generate
 endif
 
 ifneq (${COVERALLS},)
-CHECK = ${CHECK} go-coveralls
+CHECK += go-coveralls
 endif
 
 ifeq ($(shell which docker),)

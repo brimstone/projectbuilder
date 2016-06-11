@@ -70,9 +70,7 @@ travis-ssh: .travis.tar.enc
 travis-decrypt:
 	@echo "== Decrypting .travis"
 	@openssl enc -aes-256-cbc -pass "pass:${TRAVIS_TAR_KEY}" -d < .travis.tar.enc | tar -zx
-	@if [ ! -s ~/.ssh/config ]; then \
-		printf 'Host *\n\tStrictHostKeyChecking no\n' > ~/.ssh/config; \
-	fi
+	@printf 'Host *\n\tStrictHostKeyChecking no\n' >> ~/.ssh/config
 	@echo "== Starting ssh-agent"
 	@eval $$(ssh-agent -s); \
 	echo "$$SSH_AUTH_SOCK" > .travis/ssh_auth_sock; \

@@ -55,7 +55,7 @@ travis-gitignore:
 
 .travis.tar.enc: .travis/id_rsa
 	@tar -zcf .travis.tar .travis
-	key="$$(openssl rand -base64 30)"; \
+	@key="$$(openssl rand -base64 30)"; \
 	openssl enc -aes-256-cbc -pass "pass:$$key" < .travis.tar > .travis.tar.enc; \
 	travis env set TRAVIS_TAR_KEY "$$key" -p
 
@@ -76,10 +76,9 @@ travis-decrypt:
 	@echo "== Starting ssh-agent"
 	@eval $$(ssh-agent -s); \
 	echo "$$SSH_AUTH_SOCK" > .travis/ssh_auth_sock; \
-	echo "$$SSH_AGENT_PID" > .travis/ssh_agent_pid
-	@echo "== Adding key to agent"
-	@eval $(< .travis/ssh-agent); \
-		ssh-add .travis/id_rsa
+	echo "$$SSH_AGENT_PID" > .travis/ssh_agent_pid; \
+	echo "== Adding key to agent"; \
+	ssh-add .travis/id_rsa
 
 .PHONY: travis-publish
 travis-publish:

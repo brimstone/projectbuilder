@@ -10,6 +10,7 @@ TRAVIS += setup all
 
 # if this is the master branch, also publish
 ifeq (${TRAVIS_BRANCH},master)
+TRAVIS += travis-publish
 endif
 
 travis: ${TRAVIS}
@@ -69,4 +70,23 @@ travis-ssh: .travis.tar.enc
 travis-decrypt:
 	@echo "== Decrypting .travis"
 	@openssl enc -aes-256-cbc -pass "pass:${TRAVIS_TAR_KEY}" -d < .travis.tar.enc | tar -zx
-	@ln -s .travis/id_rsa ${HOME}/.ssh/id_rsa
+	@if [ ! -s ~/.ssh/config ]; then \
+		printf 'Host *\n\tStrictHostKeyChecking no\n' > ~/.ssh/config; \
+	fi
+	@echo "== Starting ssh-agent"
+	@eval $$(ssh-agent -s); \
+	echo "$$SSH_AUTH_SOCK" > .travis/ssh_auth_sock; \
+	echo "$$SSH_AGENT_PID" > .travis/ssh_agent_pid
+	@echo "== Adding key to agent"
+	@eval $(< .travis/ssh-agent); \
+		ssh-add .travis/id_rsa
+
+.PHONY: travis-publish
+travis-publish:
+	# shim our ssh_auth_sock if we have it
+	@if [ -f .travis/ssh_auth_sock ]; then \
+		export SSH_AUTH_SOCK=$$(< .travis/ssh_auth_sock); \
+		$(MAKE) publish; \
+	else \
+		$(MAKE) publish;
+	fi

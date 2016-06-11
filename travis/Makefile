@@ -1,7 +1,7 @@
 .PHONY: travis travis.yaml
 
 # If we have our key, decrypt things before we get going
-ifeq (${TRAVIS_TAR_KEY},)
+ifneq (${TRAVIS_TAR_KEY},)
 TRAVIS = travis-decrypt
 endif
 
@@ -88,5 +88,5 @@ travis-publish:
 		export SSH_AUTH_SOCK=$$(< .travis/ssh_auth_sock); \
 		$(MAKE) publish; \
 	else \
-		$(MAKE) publish;
+		$(MAKE) publish; \
 	fi

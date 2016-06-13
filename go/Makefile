@@ -68,7 +68,7 @@ go-lint:
 .PHONY: go-generate
 go-generate:
 	$(info == Generating code)
-	@go generate -v
+	@go generate
 
 .PHONY: go-coveralls
 go-coveralls:

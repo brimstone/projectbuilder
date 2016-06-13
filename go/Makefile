@@ -9,15 +9,18 @@ ifeq (${LANGUAGE},go)
 
 SETUP ?= go-setup
 
-ifneq ($(wildcard *_test.go),)
-CHECK ?= go-fmt go-vet go-lint go-generate go-test
-else
-$(warning == Skipping check step since there are no *_test.go files)
 CHECK ?= go-fmt go-vet go-lint go-generate
-endif
+
+ifneq ($(wildcard *_test.go),)
 
 ifneq (${COVERALLS},)
 CHECK += go-coveralls
+else
+CHECK += go-test
+endif
+
+else
+$(warning == Skipping check step since there are no *_test.go files)
 endif
 
 ifeq ($(shell which docker),)

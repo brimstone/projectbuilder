@@ -3,6 +3,8 @@
 # If we have our key, decrypt things before we get going
 ifneq (${TRAVIS_TAR_KEY},)
 TRAVIS = travis-decrypt
+else
+TRAVIS =
 endif
 
 # default travis bits

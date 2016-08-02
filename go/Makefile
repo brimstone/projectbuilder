@@ -29,8 +29,11 @@ ${BINARY}: *.go
 else
 ${BINARY}: *.go
 	$(info == Building)
-	tar c . --exclude "${BINARY}" | docker run --rm -i -e TAR=1 brimstone/golang-musl \
-	-o ${BINARY} \
+	tar c . --exclude "${BINARY}" | docker run --rm -i \
+		-e TAR=1 \
+		-e LDFLAGS="-X main.COMMITHASH=${COMMITHASH} -X main.BUILDDATETIME=${BUILDDATETIME}" \
+		brimstone/golang-musl \
+		-o ${BINARY} \
 	| tar x "./${BINARY}"
 endif
 

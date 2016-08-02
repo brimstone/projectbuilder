@@ -16,15 +16,17 @@ SHELL := bash
 # our variables with sane defaults
 PRECHECK = main-precheck
 BINARY ?= app
+BINARIES ?=
 define newline
 
 
 endef
 
-
+COMMITHASH := $(shell git describe --always --tags --dirty)
+BUILDDATETIME := $(shell date --utc +%H%m%dT%H%M%SZ)
 
 ## targets
-all: precheck check binary package test
+all: precheck check binaries package test
 
 include ${PROJECTBUILDER}/*/Makefile
 
@@ -43,6 +45,8 @@ main-precheck:
 check: ${CHECK}
 
 binary: ${BINARY}
+
+binaries: binary ${BINARIES}
 
 package: ${PACKAGE}
 

@@ -23,7 +23,7 @@ define newline
 endef
 
 COMMITHASH := $(shell git describe --always --tags --dirty)
-BUILDDATETIME := $(shell date --utc +%H%m%dT%H%M%SZ)
+BUILDDATETIME := $(shell date --utc --iso-8601=seconds)
 
 ## targets
 all: precheck check binaries package test

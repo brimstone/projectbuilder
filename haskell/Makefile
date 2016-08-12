@@ -1,11 +1,15 @@
 # first, detect our language
 ifneq ($(wildcard *.hs),)
 LANGUAGE ?= haskell
-# TODO LANGUAGE_VERSION ?= 1.6
+LANGUAGE_VERSION ?= 0
 endif
 
 # second, if this is our language, define checks
 ifeq (${LANGUAGE},haskell)
+
+SETUP ?=
+
+CHECK ?=
 
 ${BINARY}: *.hs
 	$(info == Building)

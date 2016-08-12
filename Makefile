@@ -56,3 +56,53 @@ test: ${TEST}
 clean: ${CLEAN}
 
 publish: ${PUBLISH}
+
+define HELPTEXT
+Projectbuilder Help
+
+Detected language: ${LANGUAGE} version ${LANGUAGE_VERSION}
+Detected packager: ${PACKAGE}
+Binary name: ${BINARY}
+
+Common targets:
+ - precheck
+     Verify the environment is ready for use.
+     It's common to make sure the system has the right languages or libraries
+     installed at this step.
+ - check
+     Verify the code is ready for compliation.
+     It's common to run unit tests at this step.
+ - ${BINARY}
+     Just build our main binary.
+ - binaries
+     Build our main binary and any other binaries related to this project.
+ - package
+     Package the binary(es) into a single artifact.
+     It's common for system package or container packaging to take place at this
+     stage.
+ - test
+     Test the packaging.
+     This is really only used for containers, but could be used for system
+     packaging too.
+ - clean
+     Cleans the working directory from any artifacts generated from any above steps
+ - publish
+     Publishes the packaged artifact to somewhere.
+
+Precheck steps: ${PRECHECK}
+Check steps: ${CHECK}
+
+Binaries to be built: ${BINARIES}
+
+Package steps: ${PACKAGE}
+
+Test steps: ${TEST}
+
+Clean steps: ${CLEAN}
+
+Publish Steps: ${PUBLISH}
+endef
+
+.PHONY: help
+help:
+	@echo -e "$(subst $(newline),\n,${HELPTEXT})"

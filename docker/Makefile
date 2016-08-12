@@ -1,3 +1,24 @@
+define DOCKERFILE
+FROM scratch
+
+COPY ${BINARY} /
+
+ENTRYPOINT ["/${BINARY}"]
+endef
+
+DOCKER_PASSWORD ?=
+DOCKER_LOGIN ?=
+DOCKER_EMAIL ?= 
+define HELP_DOCKER
+
+- Docker
+  - Dockerfile
+      Output a sample Dockerfile
+endef
+
+HELP_TARGETS += ${HELP_DOCKER}
+
+
 # if we have a dockerfile and docker installed
 ifneq ($(wildcard Dockerfile),)
 ifneq ($(shell which docker),)
@@ -8,7 +29,7 @@ PACKAGE ?= docker-package
 # if we don't have an auth file, assume we're not logged in to publish
 ifeq ($(wildcard ${HOME}/.docker/config.json),)
 # if DOCKER_PASSWORD isn't set, then we can't even login
-ifdef DOCKER_PASSWORD
+ifndef ($(DOCKER_PASSWORD),)
 DOCKER_LOGIN = $(shell docker login -e="${DOCKER_EMAIL}" -u="${DOCKER_USERNAME}" -p="${DOCKER_PASSWORD}" </dev/null)
 $(info == Results of Docker Login: ${DOCKER_LOGIN})
 endif
@@ -51,3 +72,6 @@ docker-package: ${BINARY}
 docker-publish:
 	$(info == Pushing Docker image)
 	docker push ${DOCKER_TAG}
+
+Dockerfile:
+	@echo -e "$(subst $(newline),\n,${DOCKERFILE})" > Dockerfile

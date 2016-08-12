@@ -23,7 +23,7 @@ user@host:project$ export PROJECTBUILDER=$HOME/projectbuilder
 If this is the first use in a project, call:
 
 ```
-user@host:project$ ${PROJECTBUILDER}/make
+user@host:project$ ${PROJECTBUILDER}/make Makefile
 ```
 
 This sets up a super simple `Makefile` in the local project. This can also be

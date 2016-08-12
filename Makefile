@@ -17,6 +17,7 @@ SHELL := bash
 PRECHECK = main-precheck
 BINARY ?= app
 BINARIES ?=
+TEST ?=
 define newline
 
 

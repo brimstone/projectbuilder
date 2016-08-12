@@ -1,2 +1,2 @@
 #!/bin/bash
-make -f "$PROJECTBUILDER/Makefile"
+make -f "$PROJECTBUILDER/Makefile" "$@"

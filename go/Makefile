@@ -87,4 +87,3 @@ go-test:
 go-clean:
 	$(info == Cleaning)
 	-rm ${BINARY}
-

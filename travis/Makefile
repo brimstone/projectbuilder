@@ -1,7 +1,7 @@
 .PHONY: travis travis.yaml
 
 # If we have our key, decrypt things before we get going
-ifneq (${TRAVIS_TAR_KEY},)
+ifndef TRAVIS_TAR_KEY
 TRAVIS = travis-decrypt
 else
 TRAVIS =
@@ -10,6 +10,7 @@ endif
 # default travis bits
 TRAVIS += setup all
 
+TRAVIS_BRANCH ?=
 # if this is the master branch, also publish
 ifeq (${TRAVIS_BRANCH},master)
 TRAVIS += travis-publish
@@ -31,6 +32,18 @@ script:
   - export PROJECTBUILDER=\$$PWD/projectbuilder
   - make travis
 endef
+
+
+define HELP_TRAVIS
+
+- Travis CI
+  - travis.yml
+      Output a sample .travis.yml file
+  - travis-ssh
+      Setup .travis with an ssh key for publishing
+endef
+
+HELP_TARGETS += ${HELP_TRAVIS}
 
 # sets up travis yaml file
 travis.yml:

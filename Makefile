@@ -18,6 +18,11 @@ PRECHECK = main-precheck
 BINARY ?= app
 BINARIES ?=
 TEST ?=
+PACKAGE ?=
+PUBLISH ?=
+COVERALLS ?=
+HELP_TARGETS ?=
+HELP_VARIABLES ?=
 define newline
 
 
@@ -61,48 +66,53 @@ define HELPTEXT
 Projectbuilder Help
 
 Detected language: ${LANGUAGE} version ${LANGUAGE_VERSION}
-Detected packager: ${PACKAGE}
 Binary name: ${BINARY}
+Binaries to be built: ${BINARY} ${BINARIES}
+
+
+Configurable Variables:
+Configure these variables in the project Makefile or environment.
+${HELP_VARIABLES}
+- COVERALLS = ${COVERALLS}
+
 
 Common targets:
- - precheck
+These are available to every project
+
+ - precheck: ${PRECHECK}
      Verify the environment is ready for use.
      It's common to make sure the system has the right languages or libraries
      installed at this step.
- - check
-     Verify the code is ready for compliation.
+ - check: ${CHECK}
+     Verify the code is ready for compilation.
      It's common to run unit tests at this step.
  - ${BINARY}
      Just build our main binary.
- - binaries
+ - binaries: ${BINARY} ${BINARIES}
      Build our main binary and any other binaries related to this project.
- - package
+ - package: ${PACKAGE}
      Package the binary(es) into a single artifact.
      It's common for system package or container packaging to take place at this
      stage.
- - test
+ - test: ${TEST}
      Test the packaging.
      This is really only used for containers, but could be used for system
      packaging too.
- - clean
+ - clean: ${CLEAN}
      Cleans the working directory from any artifacts generated from any above steps
- - publish
+ - publish: ${PUBLISH}
      Publishes the packaged artifact to somewhere.
 
-Precheck steps: ${PRECHECK}
-Check steps: ${CHECK}
 
-Binaries to be built: ${BINARIES}
+Specific targets:
+${HELP_TARGETS}
 
-Package steps: ${PACKAGE}
-
-Test steps: ${TEST}
-
-Clean steps: ${CLEAN}
-
-Publish Steps: ${PUBLISH}
 endef
 
 .PHONY: help
 help:
 	@echo -e "$(subst $(newline),\n,${HELPTEXT})"
+
+Makefile:
+	@echo -e "$(subst $(newline),\n,${HELP_VARIABLES})" | sed 's/^/#/g' > Makefile
+	@${PROJECTBUILDER}/make precheck

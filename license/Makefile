@@ -1,7 +1,24 @@
+define HELP_LICENSE
+
+- Licensing
+  - agpl
+      Download AGPL v3 to LICENSE
+  - apache
+      Download Apache v2to LICENSE
+  - gpl
+      Download GPL v3 to LICENSE
+  - lgpl
+      Download LGPL v3 to LICENSE
+  - mit
+      Copy MIT to LICENSE
+endef
+
+HELP_TARGETS += ${HELP_LICENSE}
+
 define MIT_LICENSE
 MIT License
 
-Copyright (c) [year] [fullname]
+Copyright (c) $(shell date +%Y) [fullname]
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -23,7 +40,7 @@ SOFTWARE.
 endef
 
 define APACHE_LICENSE
-Copyright [year] [fullname]
+Copyright $(shell date +%Y) [fullname]
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -39,12 +56,15 @@ limitations under the License.
 endef
 
 agpl:
+	@echo == Setting LICENSE to AGPL v3
 	wget http://www.gnu.org/licenses/agpl-3.0.txt -O LICENSE
 
 gpl:
+	@echo == Setting LICENSE to GPL v3
 	wget http://www.gnu.org/licenses/gpl-3.0.txt -O LICENSE
 
 lgpl:
+	@echo == Setting LICENSE to LGPL v3
 	wget http://www.gnu.org/licenses/lgpl-3.0.txt -O LICENSE
 
 apache:

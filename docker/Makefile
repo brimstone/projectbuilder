@@ -3,12 +3,24 @@ FROM scratch
 
 COPY ${BINARY} /
 
-ENTRYPOINT ["/${BINARY}"]
+ENTRYPOINT [\"/${BINARY}\"]
 endef
 
 DOCKER_PASSWORD ?=
 DOCKER_LOGIN ?=
 DOCKER_EMAIL ?= 
+# try to set an org from our logged in user, if it's not already set
+DOCKER_ORG ?= $(shell awk -F '"' '$$2 == "auth" {print $$4; exit}' \
+					~/.docker/config.json \
+				| base64 -d \
+				| awk -F: '{print $$1}')
+# if we still don't have an org, don't set a tag
+ifeq (${DOCKER_ORG},)
+DOCKER_TAG ?=
+else
+DOCKER_TAG ?= ${DOCKER_ORG}/$(notdir ${PWD})
+endif # DOCKER_ORG
+
 define HELP_DOCKER
 
 - Docker
@@ -35,30 +47,26 @@ $(info == Results of Docker Login: ${DOCKER_LOGIN})
 endif
 endif # wildcard config.json
 
-# if we don't already have a docker tag set
-ifndef DOCKER_TAG
-
-# try to set an org from our logged in user, if it's not already set
-DOCKER_ORG ?= $(shell awk -F '"' '$$2 == "auth" {print $$4; exit}' \
-					~/.docker/config.json \
-				| base64 -d \
-				| awk -F: '{print $$1}')
-# if we still don't have an org, don't set a tag
-ifeq (${DOCKER_ORG},)
+# if we still don't have a tag set, don't publish with docker
+ifeq ($(DOCKER_TAG),)
 $(warning == Docker detected, but unable to determine $$DOCKER_ORG and $$DOCKER_TAG is empty. Not publishing with docker.)
 else
-DOCKER_TAG ?= ${DOCKER_ORG}/$(notdir ${PWD})
-endif # DOCKER_ORG
-
-endif # DOCKER_TAG
-
-# if we still don't have a tag set, don't publish with docker
-ifdef DOCKER_TAG
 PUBLISH ?= docker-publish
 endif # DOCKER_TAG
 
 endif # shell which docker
 endif # wildcard Dockerfile
+
+define VARIABLES_DOCKER
+
+- DOCKER_EMAIL = ${DOCKER_EMAIL}
+- DOCKER_LOGIN = ${DOCKER_LOGIN}
+- DOCKER_PASSWORD = <hidden>
+- DOCKER_ORG = ${DOCKER_ORG}
+- DOCKER_TAG = ${DOCKER_TAG}
+endef
+
+HELP_VARIABLES += ${VARIABLES_DOCKER}
 
 docker-package: ${BINARY}
 	$(info == Building Docker image)

@@ -1,7 +1,15 @@
+GIT_URL ?=
+GIT_BRANCH ?= $(shell git rev-parse --abbrev-ref HEAD)
 ifneq (${GIT_URL},)
 PUBLISH ?= git-publish
-GIT_BRANCH ?= $(shell git rev-parse --abbrev-ref HEAD)
 endif
+
+define VARIABLES_GIT
+
+- GIT_URL = ${GIT_URL}
+- GIT_BRANCH = ${GIT_BRANCH}
+endef
+HELP_VARIABLES += ${VARIABLES_GIT}
 
 git-publish:
 	@echo == Publishing with git

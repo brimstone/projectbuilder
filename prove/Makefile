@@ -1,5 +1,4 @@
 ifneq ($(wildcard t),)
-
 TEST ?= prove-test
 endif
 

@@ -1,4 +1,5 @@
 go-docker-simple
 ----------------
 
-Just run `make package`
+1. Run `${PROJECTBUILDER}/make Makefile Dockerfile`
+2. Run `make package`

@@ -20,7 +20,7 @@ CHECK += go-test
 endif
 
 else
-$(warning == Skipping check step since there are no *_test.go files)
+$(info == Skipping tests in check step since there are no *_test.go files)
 endif
 
 ifeq ($(shell which docker),)

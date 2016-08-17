@@ -36,7 +36,7 @@ ifneq ($(wildcard Dockerfile),)
 ifneq ($(shell which docker),)
 
 # assume we should be a docker package
-PACKAGE ?= docker-package
+PACKAGE = docker-package
 
 # if we don't have an auth file, assume we're not logged in to publish
 ifeq ($(wildcard ${HOME}/.docker/config.json),)
@@ -51,7 +51,7 @@ endif # wildcard config.json
 ifeq ($(DOCKER_TAG),)
 $(warning == Docker detected, but unable to determine $$DOCKER_ORG and $$DOCKER_TAG is empty. Not publishing with docker.)
 else
-PUBLISH ?= docker-publish
+PUBLISH = docker-publish
 endif # DOCKER_TAG
 
 endif # shell which docker

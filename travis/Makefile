@@ -1,7 +1,7 @@
 .PHONY: travis travis.yaml
 
 # If we have our key, decrypt things before we get going
-ifndef TRAVIS_TAR_KEY
+ifdef TRAVIS_TAR_KEY
 TRAVIS = travis-decrypt
 else
 TRAVIS =

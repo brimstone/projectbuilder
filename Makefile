@@ -23,6 +23,7 @@ PUBLISH ?=
 COVERALLS ?=
 HELP_TARGETS ?=
 HELP_VARIABLES ?=
+DOCKER ?= $(shell which docker)
 define newline
 
 
@@ -59,6 +60,7 @@ package: ${PACKAGE}
 test: ${TEST}
 
 clean: ${CLEAN}
+	-rm ${BINARIES}
 
 publish: ${PUBLISH}
 

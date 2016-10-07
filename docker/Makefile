@@ -74,7 +74,8 @@ docker-package: ${BINARY}
 	-t ${DOCKER_TAG} \
 	--label org.label-schema.schema-version="1.0" \
 	--label org.label-schema.build-date="$(BUILDDATETIME)" \
-	--label org.label-schema.version="${COMMITHASH}" \
+	--label org.label-schema.vcs-ref="${GITCOMMIT}" \
+	--label org.label-schema.version="${GITSUMMARY}" \
 	.
 
 docker-publish:

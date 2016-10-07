@@ -31,7 +31,11 @@ ${BINARY}: *.go
 	$(info == Building)
 	tar c . --exclude "${BINARY}" | docker run --rm -i \
 		-e TAR=1 \
-		-e LDFLAGS="-X main.COMMITHASH=${COMMITHASH} -X main.BUILDDATETIME=${BUILDDATETIME}" \
+		-e LDFLAGS="-X main.GitCommit=${GITCOMMIT} \
+-X main.GitBranch=${GITBRANCH} \
+-X main.GitState=${GITSTATE} \
+-X main.GitSummary=${GITSUMMARY} \
+-X main.BuildDate=${BUILDDATETIME}" \
 		brimstone/golang-musl \
 		-o ${BINARY} \
 	| tar x "./${BINARY}"

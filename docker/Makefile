@@ -33,7 +33,7 @@ HELP_TARGETS += ${HELP_DOCKER}
 
 # if we have a dockerfile and docker installed
 ifneq ($(wildcard Dockerfile),)
-ifneq ($(shell which docker),)
+ifneq (${DOCKER},)
 
 # assume we should be a docker package
 PACKAGE = docker-package
@@ -42,7 +42,7 @@ PACKAGE = docker-package
 ifeq ($(wildcard ${HOME}/.docker/config.json),)
 # if DOCKER_PASSWORD isn't set, then we can't even login
 ifndef ($(DOCKER_PASSWORD),)
-DOCKER_LOGIN = $(shell docker login -e="${DOCKER_EMAIL}" -u="${DOCKER_USERNAME}" -p="${DOCKER_PASSWORD}" </dev/null)
+DOCKER_LOGIN = $(shell ${DOCKER} login -e="${DOCKER_EMAIL}" -u="${DOCKER_USERNAME}" -p="${DOCKER_PASSWORD}" </dev/null)
 $(info == Results of Docker Login: ${DOCKER_LOGIN})
 endif
 endif # wildcard config.json
@@ -70,7 +70,7 @@ HELP_VARIABLES += ${VARIABLES_DOCKER}
 
 docker-package: ${BINARY}
 	$(info == Building Docker image)
-	docker build \
+	${DOCKER} build \
 	-t ${DOCKER_TAG} \
 	--label org.label-schema.schema-version="1.0" \
 	--label org.label-schema.build-date="$(BUILDDATETIME)" \

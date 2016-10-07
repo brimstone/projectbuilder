@@ -23,13 +23,13 @@ else
 $(info == Skipping tests in check step since there are no *_test.go files)
 endif
 
-ifeq ($(shell which docker),)
-${BINARY}: *.go
+ifeq (${DOCKER},)
+${BINARY}: precheck check *.go
 	go build -i -o ${BINARY}
 else
 ${BINARY}: *.go
 	$(info == Building)
-	tar c . --exclude "${BINARY}" | docker run --rm -i \
+	tar c . --exclude "${BINARY}" | ${DOCKER} run --rm -i \
 		-e TAR=1 \
 		-e LDFLAGS="-X main.GitCommit=${GITCOMMIT} \
 -X main.GitBranch=${GITBRANCH} \

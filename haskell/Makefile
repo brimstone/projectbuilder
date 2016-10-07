@@ -17,7 +17,7 @@ SETUP ?=
 
 CHECK ?=
 
-ifeq ($(shell which docker),)
+ifeq (${DOCKER},)
 ${BINARY}: ${FILES}
 	$(info == Building)
 	stack ghc -- -static -optl-static -threaded -o ${BINARY} ${FILES}
@@ -25,7 +25,7 @@ ${BINARY}: ${FILES}
 else
 ${BINARY}: ${FILES}
 	$(info == Building)
-	tar c . --exclude "${BINARY}" | docker run --rm -i \
+	tar c . --exclude "${BINARY}" | ${DOCKER} run --rm -i \
 		-e TAR=1 \
 		brimstone/haskell \
 		-o ${BINARY} ${FILES} \

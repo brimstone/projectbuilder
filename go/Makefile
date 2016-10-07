@@ -27,7 +27,7 @@ ifeq (${DOCKER},)
 ${BINARY}: precheck check *.go
 	go build -i -o ${BINARY}
 else
-${BINARY}: *.go
+${BINARY}: precheck check *.go
 	$(info == Building)
 	tar c . --exclude "${BINARY}" | ${DOCKER} run --rm -i \
 		-e TAR=1 \

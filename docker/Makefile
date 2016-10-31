@@ -77,6 +77,7 @@ docker-package: ${BINARY}
 	--label org.label-schema.vcs-ref="${GITCOMMIT}" \
 	--label org.label-schema.version="${GITSUMMARY}" \
 	.
+	${DOCKER} tag ${DOCKER_TAG} ${DOCKER_TAG}:${GITSUMMARY}
 
 docker-publish:
 	$(info == Pushing Docker image)

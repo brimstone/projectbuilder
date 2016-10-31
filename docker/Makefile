@@ -8,7 +8,7 @@ endef
 
 DOCKER_PASSWORD ?=
 DOCKER_LOGIN ?=
-DOCKER_EMAIL ?= 
+DOCKER_EMAIL ?=
 # try to set an org from our logged in user, if it's not already set
 DOCKER_ORG ?= $(shell awk -F '"' '$$2 == "auth" {print $$4; exit}' \
 					~/.docker/config.json \

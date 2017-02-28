@@ -21,6 +21,13 @@ else
 DOCKER_TAG ?= ${DOCKER_ORG}/$(notdir ${PWD})
 endif # DOCKER_ORG
 
+ifeq ($(shell echo "${DOCKER_TAG}" | sed 's/[^/]//g'),//)
+DOCKER_REGISTRY ?= $(shell echo "${DOCKER_TAG}" | sed 's/\/.*//')
+$(info DOCKER_REGISTRY: ${DOCKER_REGISTRY})
+else
+DOCKER_REGISTRY ?= https://index.docker.io/v1/
+endif
+
 define HELP_DOCKER
 
 - Docker
@@ -41,8 +48,8 @@ PACKAGE = docker-package
 # if we don't have an auth file, assume we're not logged in to publish
 ifeq ($(wildcard ${HOME}/.docker/config.json),)
 # if DOCKER_PASSWORD isn't set, then we can't even login
-ifndef ($(DOCKER_PASSWORD),)
-DOCKER_LOGIN = $(shell ${DOCKER} login -e="${DOCKER_EMAIL}" -u="${DOCKER_USERNAME}" -p="${DOCKER_PASSWORD}" </dev/null)
+ifneq ($(DOCKER_PASSWORD),)
+DOCKER_LOGIN = $(shell ${DOCKER} login -e="${DOCKER_EMAIL}" -u="${DOCKER_USERNAME}" -p="${DOCKER_PASSWORD}" "${DOCKER_REGISTRY}" </dev/null 2>&1)
 $(info == Results of Docker Login: ${DOCKER_LOGIN})
 endif
 endif # wildcard config.json

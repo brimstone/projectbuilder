@@ -23,7 +23,6 @@ endif # DOCKER_ORG
 
 ifeq ($(shell echo "${DOCKER_TAG}" | sed 's/[^/]//g'),//)
 DOCKER_REGISTRY ?= $(shell echo "${DOCKER_TAG}" | sed 's/\/.*//')
-$(info DOCKER_REGISTRY: ${DOCKER_REGISTRY})
 else
 DOCKER_REGISTRY ?= https://index.docker.io/v1/
 endif

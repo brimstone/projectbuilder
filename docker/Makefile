@@ -8,7 +8,6 @@ endef
 
 DOCKER_PASSWORD ?=
 DOCKER_LOGIN ?=
-DOCKER_EMAIL ?=
 # try to set an org from our logged in user, if it's not already set
 DOCKER_ORG ?= $(shell awk -F '"' '$$2 == "auth" {print $$4; exit}' \
 					~/.docker/config.json \
@@ -48,7 +47,7 @@ PACKAGE = docker-package
 ifeq ($(wildcard ${HOME}/.docker/config.json),)
 # if DOCKER_PASSWORD isn't set, then we can't even login
 ifneq ($(DOCKER_PASSWORD),)
-DOCKER_LOGIN = $(shell ${DOCKER} login -e="${DOCKER_EMAIL}" -u="${DOCKER_USERNAME}" -p="${DOCKER_PASSWORD}" "${DOCKER_REGISTRY}" </dev/null 2>&1)
+DOCKER_LOGIN = $(shell ${DOCKER} login -u="${DOCKER_USERNAME}" -p="${DOCKER_PASSWORD}" "${DOCKER_REGISTRY}" </dev/null 2>&1)
 $(info == Results of Docker Login: ${DOCKER_LOGIN})
 endif
 endif # wildcard config.json
@@ -65,7 +64,6 @@ endif # wildcard Dockerfile
 
 define VARIABLES_DOCKER
 
-- DOCKER_EMAIL = ${DOCKER_EMAIL}
 - DOCKER_LOGIN = ${DOCKER_LOGIN}
 - DOCKER_PASSWORD = <hidden>
 - DOCKER_ORG = ${DOCKER_ORG}

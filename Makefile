@@ -33,7 +33,7 @@ GITCOMMIT := $(shell git rev-parse HEAD)
 GITBRANCH := $(shell git rev-parse --abbrev-ref HEAD)
 GITSTATE := $(shell git diff-index --quiet HEAD && echo clean || echo dirty)
 GITSUMMARY := $(shell git describe --always --tags --dirty)
-BUILDDATETIME := $(shell date --utc --iso-8601=seconds)
+BUILDDATETIME := $(shell date --utc +"%Y-%m-%dT%H:%M:%SZ")
 
 ## targets
 all: precheck check binaries package test

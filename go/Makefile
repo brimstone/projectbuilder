@@ -23,6 +23,13 @@ else
 $(info == Skipping tests in check step since there are no *_test.go files)
 endif
 
+export LDFLAGS=-X main.GitCommit=${GITCOMMIT} \
+-X main.GitBranch=${GITBRANCH} \
+-X main.GitState=${GITSTATE} \
+-X main.GitSummary=${GITSUMMARY} \
+-X main.BuildDate=${BUILDDATETIME} \
+$(foreach var,${BUILDVARS},-X main.${var})
+
 ifeq (${DOCKER},)
 ${BINARY}: precheck check *.go
 	go build -i -o ${BINARY}
@@ -31,11 +38,7 @@ ${BINARY}: precheck check *.go
 	$(info == Building)
 	tar c . --exclude "${BINARY}" | ${DOCKER} run --rm -i \
 		-e TAR=1 \
-		-e LDFLAGS="-X main.GitCommit=${GITCOMMIT} \
--X main.GitBranch=${GITBRANCH} \
--X main.GitState=${GITSTATE} \
--X main.GitSummary=${GITSUMMARY} \
--X main.BuildDate=${BUILDDATETIME}" \
+		-e LDFLAGS \
 		brimstone/golang-musl \
 		-o ${BINARY} \
 	| tar x "./${BINARY}"

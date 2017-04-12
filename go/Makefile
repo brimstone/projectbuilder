@@ -32,7 +32,7 @@ $(foreach var,${BUILDVARS},-X main.${var})
 
 ifeq (${DOCKER},)
 ${BINARY}: precheck check *.go
-	go build -i -o ${BINARY}
+	go build -ldflags "-linkmode external -extldflags \"-static\" -s -w ${LDFLAGS}" -i -o ${BINARY}
 else
 ${BINARY}: precheck check *.go
 	$(info == Building)

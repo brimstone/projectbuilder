@@ -32,7 +32,7 @@ $(foreach var,${BUILDVARS},-X main.${var})
 
 ifeq (${DOCKER},)
 ${BINARY}: precheck check *.go
-	go build -ldflags "-linkmode external -extldflags \"-static\" -s -w ${LDFLAGS}" -i -o ${BINARY}
+	go build -ldflags "-s -w ${LDFLAGS}" -i -o ${BINARY}
 else
 ${BINARY}: precheck check *.go
 	$(info == Building)
@@ -68,7 +68,7 @@ go-fmt:
 .PHONY: go-vet
 go-vet:
 	$(info == Vetting code)
-	@go tool vet $(shell pwd)
+	@GOOS= go tool vet $(shell pwd)
 
 .PHONY: go-lint
 go-lint:
